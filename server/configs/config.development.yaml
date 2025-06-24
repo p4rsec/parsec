@@ -1,0 +1,26 @@
+environment: development
+
+server:
+  host: "0.0.0.0"
+  port: "8080"
+
+database:
+  host: "localhost"
+  port: "5432"
+  user: "postgres"
+  password: "password"
+  name: "p4rsec_dev"
+  ssl_mode: "disable"
+
+redis:
+  host: "localhost"
+  port: "6379"
+  password: ""
+  db: 0
+
+logger:
+  level: "debug"
+
+jwt:
+  secret: "dev-secret-key"
+  expiration_time: "24h"

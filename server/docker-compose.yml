@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: p4rsec-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: p4rsec_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d
+    networks:
+      - p4rsec-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: p4rsec-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - p4rsec-network
+
+  # Uncomment to run the application in Docker
+  # app:
+  #   build: .
+  #   container_name: p4rsec-app
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     APP_ENVIRONMENT: development
+  #     APP_DATABASE_HOST: postgres
+  #     APP_REDIS_HOST: redis
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #   networks:
+  #     - p4rsec-network
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  p4rsec-network:
+    driver: bridge
